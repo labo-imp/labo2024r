@@ -442,7 +442,7 @@ wf_septiembre <- function( pnombrewf )
   FEintra_manual_base()
   #DR_drifting_base(metodo="rank_cero_fijo")
   FEhist_base()
-  FErf_attributes_base()
+  #FErf_attributes_base()
   CN_canaritos_asesinos_base(ratio=0.2, desvio=4.0)
 
   ts9 <- TS_strategy_base9()
