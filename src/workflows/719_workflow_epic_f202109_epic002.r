@@ -117,7 +117,7 @@ DR_drifting_base <- function( pinputexps, metodo)
 
   # valores posibles
   #  "ninguno", "rank_simple", "rank_cero_fijo", "deflacion", "estandarizar"
-  param_local$metodo <- "deflacion"
+  param_local$metodo <- metodo
   param_local$semilla <- NULL  # no usa semilla, es deterministico
 
   return( exp_correr_script( param_local ) ) # linea fija
@@ -212,7 +212,7 @@ FErf_attributes_base <- function( pinputexps, ratio, desvio)
 
     pos_bagging_fraction = 1.0,
     neg_bagging_fraction = 1.0,
-    is_unbalance = TRUE,
+    is_unbalance = FALSE,
     scale_pos_weight = 1.0,
 
     drop_rate = 0.1,
@@ -248,9 +248,9 @@ CN_canaritos_asesinos_base <- function( pinputexps, ratio, desvio)
 
   # ratio varia de 0.0 a 2.0
   # desvio varia de -4.0 a 4.0
-  param_local$CanaritosAsesinos$ratio <- 0.2
+  param_local$CanaritosAsesinos$ratio <- ratio
   # desvios estandar de la media, para el cutoff
-  param_local$CanaritosAsesinos$desvios <- -0.5
+  param_local$CanaritosAsesinos$desvios <- desvio
 
   return( exp_correr_script( param_local ) ) # linea fija
 }
@@ -271,9 +271,10 @@ TS_strategy_base9 <- function( pinputexps )
   param_local$final_train$undersampling <- 1.0
   param_local$final_train$clase_minoritaria <- c( "BAJA+1", "BAJA+2")
   param_local$final_train$training <- c(201903, 201904, 201907, 201908, 201911, 201912, 
-  202011, 202012, 202104, 202105)
-  param_local$train$training <- c(201901, 201902, 201905, 201906, 201909, 201910, 202001, 202002, 202101, 202101)
-  param_local$train$validation <- c(202105)
+  202011, 202101, 202102, 202105, 202106)
+  param_local$train$training <- c(201901, 201902, 201905, 201906, 201909, 201910, 
+                                  202001, 202002, 202012,202103, 202104)
+  param_local$train$validation <- c(202106)
   param_local$train$testing <- c(202107)
 
 
@@ -331,7 +332,7 @@ HT_tuning_epic <- function( pinputexps, bypass=FALSE)
     bagging_fraction = 1.0, # 0.0 < bagging_fraction <= 1.0
     pos_bagging_fraction = 1.0, # 0.0 < pos_bagging_fraction <= 1.0
     neg_bagging_fraction = 1.0, # 0.0 < neg_bagging_fraction <= 1.0
-    is_unbalance = FALSE, #
+    is_unbalance = TRUE, #
     scale_pos_weight = 1.0, # scale_pos_weight > 0.0
 
     drop_rate = 0.1, # 0.0 < neg_bagging_fraction <= 1.0
@@ -429,12 +430,12 @@ wf_septiembre <- function( pnombrewf )
   param_local <- exp_wf_init( pnombrewf ) # linea fija
 
   DT_incorporar_dataset_competencia2024()
-  CA_catastrophe_base( metodo="MachineLearning")
-  FEintra_manual_base()
-  DR_drifting_base(metodo="rank_cero_fijo")
+  CA_catastrophe_base( metodo="Ninguno")
+  #FEintra_manual_base()
+  DR_drifting_base(metodo="ninguno")
   FEhist_base()
   FErf_attributes_base()
-  #CN_canaritos_asesinos_base(ratio=0.2, desvio=4.0)
+  CN_canaritos_asesinos_base(ratio=0.2, desvio=0.5)
 
   ts9 <- TS_strategy_base9()
   ht <- HT_tuning_epic()
