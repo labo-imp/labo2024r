@@ -433,7 +433,7 @@ wf_septiembre <- function( pnombrewf )
   CA_catastrophe_base( metodo="Ninguno")
   #FEintra_manual_base()
   DR_drifting_base(metodo="ninguno")
-  FEhist_base()
+  #FEhist_base()
   FErf_attributes_base()
   CN_canaritos_asesinos_base(ratio=0.2, desvio=0.5)
   
